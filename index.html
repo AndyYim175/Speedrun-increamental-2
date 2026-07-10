@@ -81,14 +81,6 @@
       animation: scrollStripes 10s linear infinite;
     }
 
-    .flash-active {
-      animation: screenFlash 0.15s ease-out;
-    }
-    @keyframes screenFlash {
-      0% { opacity: 0.6; background-color: rgba(16, 185, 129, 0.3); }
-      100% { opacity: 0; background-color: transparent; }
-    }
-
     #doodle-canvas {
       image-rendering: pixelated;
     }
@@ -152,9 +144,6 @@
       <!-- FREEFORM DRAWING STRATEGY OVERLAY -->
       <canvas id="doodle-canvas" width="600" height="600" class="absolute inset-0 pointer-events-none z-30"></canvas>
     </div>
-
-    <!-- FLASH LAYER FEEDBACK -->
-    <div id="flash-overlay" class="absolute inset-0 pointer-events-none z-30 transition-opacity opacity-0"></div>
 
     <!-- HUD TEXT OVERLAY (Hidden during Planning Mode) -->
     <div id="hud-stats-overlay" class="absolute bottom-5 left-5 z-40 pointer-events-none space-y-1">
@@ -324,7 +313,6 @@
     const svgCagesLayer = document.getElementById('svg-cages-layer');
     const doodleCanvas = document.getElementById('doodle-canvas');
     const ctx = doodleCanvas.getContext('2d');
-    const flashOverlay = document.getElementById('flash-overlay');
 
     const hudStatusMode = document.getElementById('hud-status-mode');
     const hudPointsDisplay = document.getElementById('hud-points-display');
@@ -1270,11 +1258,6 @@
         } else {
           playBeep(440, 'triangle', 0.12, 0.08);
         }
-
-        flashOverlay.className = "absolute inset-0 pointer-events-none z-30 bg-emerald-500/10 flash-active";
-        setTimeout(() => {
-          flashOverlay.className = "absolute inset-0 pointer-events-none z-30 opacity-0";
-        }, 150);
 
         state.ropes.forEach(rope => {
           if (rope.ids.includes(u.id)) {
